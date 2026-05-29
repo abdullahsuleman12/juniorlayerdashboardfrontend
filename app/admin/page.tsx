@@ -307,7 +307,7 @@ export default function AdminPage() {
       <div className="vh-100 d-flex justify-content-center align-items-center bg-white">
         <div className="card border-0 shadow-lg p-4" style={{ width: "380px", borderRadius: "16px" }}>
           <div className="text-center mb-4">
-            <h2 className="fw-bold text-dark">PayProof Admin</h2>
+            <h2 className="fw-bold text-dark">Junior Layer Admin</h2>
             <p className="text-muted mb-0">Login to continue</p>
           </div>
           <input
