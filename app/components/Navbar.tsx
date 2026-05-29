@@ -9,7 +9,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
       <div className="container">
         <Link className="navbar-brand fw-bold" href="/">
-          PayProof
+          Junior Layer
         </Link>
       </div>
     </nav>
