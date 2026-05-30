@@ -1561,7 +1561,8 @@ export default function PaymentPage() {
             <div className="jl-check">✓</div>
             <h2 className="jl-serif mt-4">Payment Submitted</h2>
             <p className="jl-muted mt-2">We'll verify your payment and get back to you shortly.</p>
-            <button className="jl-btn mt-4" onClick={resetForm}>Submit Another</button>
+            {/* <button className="jl-btn mt-4" onClick={resetForm}>Submit Another</button> */}
+            <button className="jl-btn mt-4" onClick={() => window.location.reload()}>Submit Another</button>
           </div>
         </div>
       </>
