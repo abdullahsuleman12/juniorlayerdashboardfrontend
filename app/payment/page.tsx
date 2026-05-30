@@ -1063,7 +1063,47 @@ export default function PaymentPage() {
             </div>
 
             {/* Step 3 */}
+            {/* Step 3 */}
             <div className="jl-section">
+              <div className="jl-section-title">
+                <span className="jl-num">03</span> Upload Proof of Payment
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <label className="jl-upload" style={{ flex: 1 }}>
+                  <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleFile} />
+                  <span className="jl-upload-icon">↑</span>
+                  <span>{screenshotFile ? screenshotFile.name : "Choose screenshot"}</span>
+                </label>
+                {screenshotFile && (
+                  <button
+                    type="button"
+                    onClick={() => { setScreenshotFile(null); setPreviewUrl(""); }}
+                    style={{
+                      background: "none",
+                      border: "1px solid var(--border)",
+                      borderRadius: "50%",
+                      width: "28px",
+                      height: "28px",
+                      color: "var(--muted)",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "14px",
+                      flexShrink: 0,
+                      transition: "all 0.15s",
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--muted)"; }}
+                    title="Remove file"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+              {previewUrl && <img src={previewUrl} className="jl-preview" alt="Preview" />}
+            </div>
+            {/* <div className="jl-section">
               <div className="jl-section-title">
                 <span className="jl-num">03</span> Upload Proof of Payment
               </div>
@@ -1073,7 +1113,7 @@ export default function PaymentPage() {
                 <span>{screenshotFile ? screenshotFile.name : "Choose screenshot"}</span>
               </label>
               {previewUrl && <img src={previewUrl} className="jl-preview" alt="Preview" />}
-            </div>
+            </div> */}
 
             {/* Error */}
             {error && <div className="jl-error">{error}</div>}
