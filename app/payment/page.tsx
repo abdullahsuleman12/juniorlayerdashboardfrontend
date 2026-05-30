@@ -913,10 +913,25 @@ export default function PaymentPage() {
     fetchBanks();
   }, []);
 
+  // useEffect(() => {
+  //   const amount = Number(form.amount);
+  //   if (!amount) { setFilteredBanks([]); return; }
+  //   setFilteredBanks(banks.filter((b) => amount >= b.minLimit && amount <= b.maxLimit));
+  // }, [form.amount, banks]);
   useEffect(() => {
     const amount = Number(form.amount);
-    if (!amount) { setFilteredBanks([]); return; }
-    setFilteredBanks(banks.filter((b) => amount >= b.minLimit && amount <= b.maxLimit));
+    if (!amount) {
+      setFilteredBanks([]);
+      setForm((prev) => ({ ...prev, bank: "" }));
+      return;
+    }
+    const filtered = banks.filter((b) => amount >= b.minLimit && amount <= b.maxLimit);
+    setFilteredBanks(filtered);
+    if (filtered.length > 0) {
+      setForm((prev) => ({ ...prev, bank: filtered[0]._id }));
+    } else {
+      setForm((prev) => ({ ...prev, bank: "" }));
+    }
   }, [form.amount, banks]);
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

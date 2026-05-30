@@ -3008,7 +3008,7 @@ export default function AdminPage() {
                   <table className="adm-table">
                     <thead>
                       <tr>
-                        {["Full Name","Email","Currency","Amount","Bank","Screenshot","Submitted At","Actions"].map(h => (
+                        {["Reference ID","Full Name","Email","Currency","Amount","Bank","Screenshot","Submitted At","Actions"].map(h => (
                           <th key={h}>{h}</th>
                         ))}
                       </tr>
@@ -3016,6 +3016,7 @@ export default function AdminPage() {
                     <tbody>
                       {customers.length > 0 ? customers.map((c: any) => (
                         <tr key={c._id}>
+                          <td>{c.referenceId}</td>
                           <td>{c.fullName}</td>
                           <td>{c.email}</td>
                           <td>{c.paymentCurrency}</td>
@@ -3037,7 +3038,7 @@ export default function AdminPage() {
                           </td>
                         </tr>
                       )) : (
-                        <tr><td colSpan={8} className="adm-empty">No submissions found</td></tr>
+                        <tr><td colSpan={9} className="adm-empty">No submissions found</td></tr>
                       )}
                     </tbody>
                   </table>
