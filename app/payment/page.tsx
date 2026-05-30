@@ -883,7 +883,7 @@ import axios from "axios";
 
 export default function PaymentPage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-  const currencies = ["USD", "PKR", "EUR", "GBP", "AED", "INR", "SAR", "CNY"];
+  const currencies = ["GBP"];
 
   const [banks, setBanks] = useState<any[]>([]);
   const [filteredBanks, setFilteredBanks] = useState<any[]>([]);
@@ -895,7 +895,7 @@ export default function PaymentPage() {
   const [form, setForm] = useState({
     fullName: "",
     email: "",
-    paymentCurrency: "USD",
+    paymentCurrency: "GBP",
     amount: "",
     bank: "",
   });
