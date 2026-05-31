@@ -2132,7 +2132,6 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 const adminStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;600&display=swap');
 
@@ -2220,6 +2219,8 @@ const adminStyles = `
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   .adm-topbar-brand {
     font-family: 'Playfair Display', serif;
@@ -2235,7 +2236,7 @@ const adminStyles = `
     font-weight: 400;
     font-family: 'Lato', sans-serif;
   }
-  .adm-topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .adm-topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
   /* ---- TABBAR ---- */
   .adm-tabbar {
@@ -2463,12 +2464,15 @@ const adminStyles = `
     align-items: center;
     justify-content: center;
     z-index: 1050;
+    padding: 16px;
+    box-sizing: border-box;
   }
   .adm-modal {
     background: var(--navy2);
     border: 1px solid var(--border);
     border-radius: 6px;
     width: 440px;
+    max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 16px 64px rgba(0,0,0,0.6);
@@ -2619,6 +2623,7 @@ const adminStyles = `
     color: var(--navy);
     cursor: pointer;
     transition: border-color 0.2s;
+    white-space: nowrap;
   }
   .adm-manage-btn:hover { border-color: var(--navy); }
 
@@ -2651,7 +2656,560 @@ const adminStyles = `
   .adm-topbar-dropdown-item:hover { background: var(--cream); }
   .adm-topbar-dropdown-item-danger { color: #c0392b !important; }
   .adm-topbar-divider { border: none; border-top: 1px solid var(--cream2); margin: 0; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 480px) {
+    .adm-topbar {
+      padding: 12px 16px;
+    }
+    .adm-topbar-brand {
+      font-size: 15px;
+    }
+    .adm-manage-btn {
+      padding: 6px 10px;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+    .adm-logout-btn {
+      padding: 6px 10px;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+    .adm-tabbar {
+      padding: 0 16px;
+    }
+    .adm-tab {
+      padding: 12px 12px;
+      font-size: 11px;
+    }
+    .adm-content {
+      padding: 16px;
+    }
+    .adm-login-card {
+      width: 100%;
+      padding: 36px 24px;
+    }
+  }
 `;
+// const adminStyles = `
+//   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;600&display=swap');
+
+//   :root {
+//     --navy:    #1C2B3A;
+//     --navy2:   #243447;
+//     --navy3:   #1a2535;
+//     --cream:   #F5F0E8;
+//     --cream2:  #EDE7D9;
+//     --orange:  #C0622F;
+//     --white:   #FFFFFF;
+//     --muted:   rgba(255,255,255,0.5);
+//     --border:  rgba(255,255,255,0.1);
+//     --border2: rgba(255,255,255,0.07);
+//   }
+
+//   /* ---- BASE ---- */
+//   .adm-root {
+//     background: var(--navy);
+//     min-height: 100vh;
+//     font-family: 'Lato', sans-serif;
+//     color: var(--white);
+//   }
+
+//   /* ---- LOGIN ---- */
+//   .adm-login-page {
+//     background: var(--navy);
+//     min-height: 100vh;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     font-family: 'Lato', sans-serif;
+//   }
+//   .adm-login-card {
+//     background: var(--navy2);
+//     border: 1px solid var(--border);
+//     border-radius: 6px;
+//     padding: 48px 40px;
+//     width: 380px;
+//     box-shadow: 0 8px 48px rgba(0,0,0,0.4);
+//   }
+//   .adm-login-eyebrow {
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.16em;
+//     text-transform: uppercase;
+//     color: var(--orange);
+//     margin-bottom: 6px;
+//     display: block;
+//   }
+//   .adm-login-title {
+//     font-family: 'Playfair Display', serif;
+//     font-size: 24px;
+//     font-weight: 600;
+//     color: var(--white);
+//     margin: 0 0 6px;
+//   }
+//   .adm-login-sub {
+//     font-size: 13px;
+//     color: var(--muted);
+//     margin-bottom: 28px;
+//   }
+//   .adm-input {
+//     width: 100%;
+//     padding: 11px 14px;
+//     background: rgba(0,0,0,0.25);
+//     border: 1px solid var(--border);
+//     border-radius: 3px;
+//     color: var(--white);
+//     font-family: 'Lato', sans-serif;
+//     font-size: 14px;
+//     margin-bottom: 12px;
+//     outline: none;
+//     transition: border-color 0.2s;
+//     box-sizing: border-box;
+//   }
+//   .adm-input::placeholder { color: var(--muted); }
+//   .adm-input:focus { border-color: var(--orange); }
+
+//   /* ---- TOPBAR ---- */
+//   .adm-topbar {
+//     background: var(--cream);
+//     border-bottom: 1px solid var(--cream2);
+//     padding: 14px 32px;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//   }
+//   .adm-topbar-brand {
+//     font-family: 'Playfair Display', serif;
+//     font-size: 18px;
+//     font-weight: 600;
+//     color: var(--navy);
+//     letter-spacing: 0.04em;
+//   }
+//   .adm-topbar-sub {
+//     font-size: 12px;
+//     color: #9a8e7e;
+//     margin-left: 8px;
+//     font-weight: 400;
+//     font-family: 'Lato', sans-serif;
+//   }
+//   .adm-topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+//   /* ---- TABBAR ---- */
+//   .adm-tabbar {
+//     background: var(--navy2);
+//     border-bottom: 1px solid var(--border);
+//     padding: 0 32px;
+//     display: flex;
+//     gap: 0;
+//   }
+//   .adm-tab {
+//     background: none;
+//     border: none;
+//     border-bottom: 2px solid transparent;
+//     padding: 14px 20px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 13px;
+//     font-weight: 600;
+//     letter-spacing: 0.06em;
+//     text-transform: uppercase;
+//     color: var(--muted);
+//     cursor: pointer;
+//     transition: color 0.2s, border-color 0.2s;
+//   }
+//   .adm-tab:hover { color: var(--white); }
+//   .adm-tab-active { color: var(--white) !important; border-bottom-color: var(--orange) !important; }
+
+//   /* ---- CONTENT ---- */
+//   .adm-content { padding: 32px; }
+
+//   .adm-page-title {
+//     font-family: 'Playfair Display', serif;
+//     font-size: 22px;
+//     font-weight: 600;
+//     color: var(--white);
+//     margin: 0 0 4px;
+//   }
+//   .adm-page-sub { font-size: 13px; color: var(--muted); margin: 0; }
+
+//   /* ---- TABLE ---- */
+//   .adm-table-wrap {
+//     background: var(--navy2);
+//     border: 1px solid var(--border);
+//     border-radius: 6px;
+//     overflow: hidden;
+//   }
+//   .adm-table {
+//     width: 100%;
+//     border-collapse: collapse;
+//     font-family: 'Lato', sans-serif;
+//   }
+//   .adm-table thead tr {
+//     background: rgba(0,0,0,0.25);
+//     border-bottom: 1px solid var(--border);
+//   }
+//   .adm-table th {
+//     padding: 12px 16px;
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.12em;
+//     text-transform: uppercase;
+//     color: var(--muted);
+//     text-align: left;
+//     white-space: nowrap;
+//   }
+//   .adm-table td {
+//     padding: 13px 16px;
+//     font-size: 13px;
+//     color: rgba(255,255,255,0.85);
+//     border-bottom: 1px solid var(--border2);
+//   }
+//   .adm-table tbody tr:last-child td { border-bottom: none; }
+//   .adm-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+//   .adm-empty { text-align: center; padding: 40px !important; color: var(--muted) !important; }
+
+//   /* ---- BUTTONS ---- */
+//   .adm-btn {
+//     background: var(--orange);
+//     color: #fff;
+//     border: none;
+//     border-radius: 3px;
+//     padding: 10px 20px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.12em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     white-space: nowrap;
+//   }
+//   .adm-btn:hover:not(:disabled) { background: #a8531f; }
+//   .adm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+//   .adm-btn-outline {
+//     background: none;
+//     color: var(--white);
+//     border: 1px solid var(--border);
+//     border-radius: 3px;
+//     padding: 9px 16px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 600;
+//     letter-spacing: 0.1em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: border-color 0.2s, color 0.2s;
+//     white-space: nowrap;
+//   }
+//   .adm-btn-outline:hover { border-color: rgba(255,255,255,0.4); }
+
+//   .adm-btn-danger {
+//     background: rgba(220,53,69,0.15);
+//     color: #ff6b7a;
+//     border: 1px solid rgba(220,53,69,0.3);
+//     border-radius: 3px;
+//     padding: 6px 14px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.08em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     white-space: nowrap;
+//   }
+//   .adm-btn-danger:hover:not(:disabled) { background: rgba(220,53,69,0.3); }
+//   .adm-btn-danger:disabled { opacity: 0.4; cursor: not-allowed; }
+
+//   .adm-btn-success {
+//     background: rgba(25,135,84,0.2);
+//     color: #5dd99b;
+//     border: 1px solid rgba(25,135,84,0.35);
+//     border-radius: 3px;
+//     padding: 6px 14px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.08em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     white-space: nowrap;
+//   }
+//   .adm-btn-success:hover { background: rgba(25,135,84,0.35); }
+
+//   .adm-btn-view {
+//     background: none;
+//     color: var(--muted);
+//     border: 1px solid var(--border);
+//     border-radius: 3px;
+//     padding: 5px 12px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     cursor: pointer;
+//     transition: all 0.15s;
+//   }
+//   .adm-btn-view:hover { border-color: rgba(255,255,255,0.35); color: var(--white); }
+
+//   /* Status badge */
+//   .adm-status-on {
+//     background: rgba(25,135,84,0.2);
+//     color: #5dd99b;
+//     border: 1px solid rgba(25,135,84,0.35);
+//     border-radius: 3px;
+//     padding: 4px 12px;
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     font-family: 'Lato', sans-serif;
+//   }
+//   .adm-status-off {
+//     background: rgba(255,255,255,0.07);
+//     color: var(--muted);
+//     border: 1px solid var(--border);
+//     border-radius: 3px;
+//     padding: 4px 12px;
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     font-family: 'Lato', sans-serif;
+//   }
+
+//   /* ---- DROPDOWN ---- */
+//   .adm-dropdown-wrap { position: relative; }
+//   .adm-dropdown-menu {
+//     position: absolute;
+//     right: 0;
+//     top: calc(100% + 6px);
+//     background: var(--navy2);
+//     border: 1px solid var(--border);
+//     border-radius: 4px;
+//     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+//     min-width: 170px;
+//     z-index: 2000;
+//     overflow: hidden;
+//   }
+//   .adm-dropdown-item {
+//     display: block;
+//     width: 100%;
+//     background: none;
+//     border: none;
+//     padding: 11px 16px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 13px;
+//     color: rgba(255,255,255,0.85);
+//     text-align: left;
+//     cursor: pointer;
+//     transition: background 0.15s;
+//   }
+//   .adm-dropdown-item:hover { background: rgba(255,255,255,0.06); }
+//   .adm-dropdown-item-danger { color: #ff6b7a !important; }
+//   .adm-dropdown-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+//   /* ---- MODAL ---- */
+//   .adm-modal-overlay {
+//     position: fixed;
+//     top: 0; left: 0;
+//     width: 100%; height: 100%;
+//     background: rgba(0,0,0,0.7);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     z-index: 1050;
+//   }
+//   .adm-modal {
+//     background: var(--navy2);
+//     border: 1px solid var(--border);
+//     border-radius: 6px;
+//     width: 440px;
+//     max-height: 90vh;
+//     overflow-y: auto;
+//     box-shadow: 0 16px 64px rgba(0,0,0,0.6);
+//   }
+//   .adm-modal-header {
+//     background: var(--cream);
+//     padding: 20px 24px 18px;
+//     border-bottom: 1px solid var(--cream2);
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//   }
+//   .adm-modal-title {
+//     font-family: 'Playfair Display', serif;
+//     font-size: 17px;
+//     font-weight: 600;
+//     color: var(--navy);
+//     margin: 0;
+//   }
+//   .adm-modal-close {
+//     background: none;
+//     border: none;
+//     font-size: 20px;
+//     color: #9a8e7e;
+//     cursor: pointer;
+//     padding: 0;
+//     line-height: 1;
+//     transition: color 0.15s;
+//   }
+//   .adm-modal-close:hover { color: var(--navy); }
+//   .adm-modal-body { padding: 24px; }
+
+//   /* Modal form elements */
+//   .adm-label {
+//     display: block;
+//     font-size: 10px;
+//     font-weight: 700;
+//     letter-spacing: 0.12em;
+//     text-transform: uppercase;
+//     color: var(--muted);
+//     margin-bottom: 6px;
+//   }
+//   .adm-modal-input {
+//     width: 100%;
+//     padding: 10px 13px;
+//     background: rgba(0,0,0,0.3);
+//     border: 1px solid var(--border);
+//     border-radius: 3px;
+//     color: var(--white);
+//     font-family: 'Lato', sans-serif;
+//     font-size: 13px;
+//     outline: none;
+//     transition: border-color 0.2s;
+//     box-sizing: border-box;
+//     margin-bottom: 14px;
+//   }
+//   .adm-modal-input::placeholder { color: var(--muted); }
+//   .adm-modal-input:focus { border-color: var(--orange); }
+
+//   .adm-range-box {
+//     background: rgba(0,0,0,0.2);
+//     border: 1px solid var(--border);
+//     border-radius: 4px;
+//     padding: 16px;
+//     margin-bottom: 16px;
+//   }
+//   .adm-range-title {
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     text-transform: uppercase;
+//     color: var(--orange);
+//     margin-bottom: 12px;
+//   }
+
+//   /* Modal bank list item */
+//   .adm-bank-list-item {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     border: 1px solid var(--border);
+//     border-radius: 4px;
+//     padding: 12px 14px;
+//     margin-bottom: 8px;
+//     background: rgba(0,0,0,0.15);
+//     cursor: pointer;
+//     transition: border-color 0.15s;
+//   }
+//   .adm-bank-list-item:hover { border-color: rgba(255,255,255,0.25); }
+//   .adm-bank-list-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+//   .adm-bank-list-sub { font-size: 11px; color: var(--muted); }
+
+//   .adm-modal-footer {
+//     display: flex;
+//     justify-content: flex-end;
+//     gap: 8px;
+//     margin-top: 20px;
+//   }
+
+//   /* Logout button in topbar */
+//   .adm-logout-btn {
+//     background: rgba(220,53,69,0.15);
+//     color: #ff6b7a;
+//     border: 1px solid rgba(220,53,69,0.3);
+//     border-radius: 3px;
+//     padding: 7px 16px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//   }
+//   .adm-logout-btn:hover { background: rgba(220,53,69,0.28); }
+
+//   /* Login btn */
+//   .adm-login-btn {
+//     width: 100%;
+//     background: var(--orange);
+//     color: #fff;
+//     border: none;
+//     border-radius: 3px;
+//     padding: 13px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 12px;
+//     font-weight: 700;
+//     letter-spacing: 0.14em;
+//     text-transform: uppercase;
+//     cursor: pointer;
+//     transition: background 0.2s;
+//     margin-top: 4px;
+//   }
+//   .adm-login-btn:hover:not(:disabled) { background: #a8531f; }
+//   .adm-login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+//   /* Topbar manage admin btn */
+//   .adm-manage-btn {
+//     background: none;
+//     border: 1px solid rgba(28,43,58,0.25);
+//     border-radius: 3px;
+//     padding: 7px 14px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 11px;
+//     font-weight: 700;
+//     letter-spacing: 0.1em;
+//     text-transform: uppercase;
+//     color: var(--navy);
+//     cursor: pointer;
+//     transition: border-color 0.2s;
+//   }
+//   .adm-manage-btn:hover { border-color: var(--navy); }
+
+//   /* Topbar manage dropdown (on cream bg) */
+//   .adm-topbar-dropdown {
+//     position: absolute;
+//     right: 0;
+//     top: calc(100% + 6px);
+//     background: var(--white);
+//     border: 1px solid var(--cream2);
+//     border-radius: 4px;
+//     box-shadow: 0 8px 32px rgba(28,43,58,0.15);
+//     min-width: 160px;
+//     z-index: 2000;
+//     overflow: hidden;
+//   }
+//   .adm-topbar-dropdown-item {
+//     display: block;
+//     width: 100%;
+//     background: none;
+//     border: none;
+//     padding: 11px 16px;
+//     font-family: 'Lato', sans-serif;
+//     font-size: 13px;
+//     color: var(--navy);
+//     text-align: left;
+//     cursor: pointer;
+//     transition: background 0.15s;
+//   }
+//   .adm-topbar-dropdown-item:hover { background: var(--cream); }
+//   .adm-topbar-dropdown-item-danger { color: #c0392b !important; }
+//   .adm-topbar-divider { border: none; border-top: 1px solid var(--cream2); margin: 0; }
+// `;
 
 export default function AdminPage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
