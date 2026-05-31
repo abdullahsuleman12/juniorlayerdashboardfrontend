@@ -1476,19 +1476,40 @@ export default function PaymentPage() {
     };
     fetchBanks();
   }, []);
-
   useEffect(() => {
-    const fetchRef = async () => {
+    const initCounter = async () => {
       try {
+        await axios.post(`${API_URL}/counter/increment`);  // wait for this first
         const res = await axios.get(`${API_URL}/counter/current`);
         setReferenceId(res.data.referenceId);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchRef();
+    initCounter();
   }, []);
 
+  // useEffect(() => {
+  //   const incrementCounter = async () => {
+  //     try {
+  //       await axios.post(`${API_URL}/counter/increment`);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   incrementCounter();
+  // }, []);
+  // useEffect(() => {
+  //   const fetchRef = async () => {
+  //     try {
+  //       const res = await axios.get(`${API_URL}/counter/current`);
+  //       setReferenceId(res.data.referenceId);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchRef();
+  // }, []);
   useEffect(() => {
     const amount = Number(form.amount);
     if (!amount) {
@@ -1535,7 +1556,7 @@ export default function PaymentPage() {
       await axios.post(`${API_URL}/customer/create`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      await axios.post(`${API_URL}/counter/increment`);
+      // await axios.post(`${API_URL}/counter/increment`);
       setSubmitted(true);
     } catch (err: any) {
       setError(err?.response?.data?.message || "Submission failed");
