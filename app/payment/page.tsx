@@ -1479,8 +1479,7 @@ export default function PaymentPage() {
   useEffect(() => {
     const initCounter = async () => {
       try {
-        await axios.post(`${API_URL}/counter/increment`);  // wait for this first
-        const res = await axios.get(`${API_URL}/counter/current`);
+        const res = await axios.post(`${API_URL}/counter/increment`);
         setReferenceId(res.data.referenceId);
       } catch (err) {
         console.log(err);
