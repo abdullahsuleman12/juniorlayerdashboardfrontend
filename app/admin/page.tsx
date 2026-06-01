@@ -715,7 +715,13 @@ export default function AdminPage() {
     } catch (error: any) { alert(error?.response?.data?.message || "Failed to update bank"); }
     finally { setSavingEdit(false); }
   };
-
+  const approveAllCustomers = async () => {
+    if (!confirm("Approve all customers? This cannot be undone.")) return;
+    try {
+      await axios.post(`${API_URL}/customer/approve-all`, {}, { headers: { Authorization: `Bearer ${getToken()}` } });
+      setCustomers([]);
+    } catch (error: any) { alert(error?.response?.data?.message || "Failed to approve all customers"); }
+  };
   const approveCustomer = async (id: string) => {
     if (!confirm("Approve this customer?")) return;
     try {
@@ -949,9 +955,16 @@ export default function AdminPage() {
           {/* SUBMISSIONS TAB */}
           {activeTab === "submission" && (
             <>
-              <div style={{ marginBottom: "24px" }}>
-                <h3 className="adm-page-title">Submissions</h3>
-                <p className="adm-page-sub">Review and manage customer payment submissions</p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "24px" }}>
+                <div>
+                  <h3 className="adm-page-title">Submissions</h3>
+                  <p className="adm-page-sub">Review and manage customer payment submissions</p>
+                </div>
+                {customers.length > 0 && (
+                  <button className="adm-btn-success" style={{ padding: "10px 20px", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }} onClick={approveAllCustomers}>
+                    ✓ Approve All
+                  </button>
+                )}
               </div>
 
               <div className="adm-table-wrap">
