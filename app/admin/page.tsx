@@ -1,3 +1,4 @@
+
 // "use client";
 
 // import { useEffect, useState } from "react";
@@ -603,9 +604,13 @@
 //   const [bankForm, setBankForm] = useState({
 //     accountLabel: "", accountName: "", maxLimit: "", minLimit: "", sortCode: "", accountNumber: "",
 //   });
+
+//   // ✅ UPDATED: editForm now includes all bank fields
 //   const [editForm, setEditForm] = useState({
-//     accountLabel: "", accountName: "", maxLimit: "", minLimit: "", sortCode: "", accountNumber: "",
+//     accountLabel: "", accountName: "", maxLimit: "", minLimit: "",
+//     sortCode: "", accountNumber: "", totalReceived: "", totalPending: "", status: "on",
 //   });
+
 //   const [adminForm, setAdminForm] = useState({ username: "", password: "" });
 
 //   const getToken = () => localStorage.getItem("token");
@@ -699,22 +704,45 @@
 //     finally { setDeletingBankId(null); }
 //   };
 
+//   // ✅ UPDATED: populates all fields including totalReceived, totalPending, status
 //   const openEditBank = (bank: any) => {
 //     setEditingBank(bank);
-//     setEditForm({ accountLabel: bank.accountLabel, accountName: bank.accountName, maxLimit: String(bank.maxLimit), minLimit: String(bank.minLimit), sortCode: bank.sortCode, accountNumber: bank.accountNumber });
+//     setEditForm({
+//       accountLabel: bank.accountLabel,
+//       accountName: bank.accountName,
+//       maxLimit: String(bank.maxLimit),
+//       minLimit: String(bank.minLimit),
+//       sortCode: bank.sortCode,
+//       accountNumber: bank.accountNumber,
+//       totalReceived: String(bank.totalReceived ?? 0),
+//       totalPending: String(bank.totalPending ?? 0),
+//       status: bank.status ?? "on",
+//     });
 //     setShowEditBankModal(true);
 //   };
 
+//   // ✅ UPDATED: sends all fields including totalReceived, totalPending, status
 //   const saveEditBank = async () => {
 //     if (!editingBank) return;
 //     try {
 //       setSavingEdit(true);
-//       const res = await axios.put(`${API_URL}/banks/edit/${editingBank._id}`, { ...editForm, maxLimit: Number(editForm.maxLimit), minLimit: Number(editForm.minLimit) }, { headers: { Authorization: `Bearer ${getToken()}` } });
+//       const res = await axios.put(
+//         `${API_URL}/banks/edit/${editingBank._id}`,
+//         {
+//           ...editForm,
+//           maxLimit: Number(editForm.maxLimit),
+//           minLimit: Number(editForm.minLimit),
+//           totalReceived: Number(editForm.totalReceived),
+//           totalPending: Number(editForm.totalPending),
+//         },
+//         { headers: { Authorization: `Bearer ${getToken()}` } }
+//       );
 //       setBanks((prev) => prev.map((b) => b._id === editingBank._id ? res.data.data : b));
 //       setShowEditBankModal(false); setEditingBank(null);
 //     } catch (error: any) { alert(error?.response?.data?.message || "Failed to update bank"); }
 //     finally { setSavingEdit(false); }
 //   };
+
 //   const approveAllCustomers = async () => {
 //     if (!confirm("Approve all customers? This cannot be undone.")) return;
 //     try {
@@ -722,6 +750,7 @@
 //       setCustomers([]);
 //     } catch (error: any) { alert(error?.response?.data?.message || "Failed to approve all customers"); }
 //   };
+
 //   const approveCustomer = async (id: string) => {
 //     if (!confirm("Approve this customer?")) return;
 //     try {
@@ -1097,7 +1126,7 @@
 //           </AdminModal>
 //         )}
 
-//         {/* EDIT BANK — step 2: form */}
+//         {/* EDIT BANK — step 2: form (✅ UPDATED with all fields) */}
 //         {showEditBankModal && editingBank && (
 //           <AdminModal title={`Edit — ${editingBank.accountLabel}`} onClose={() => { setShowEditBankModal(false); setEditingBank(null); }}>
 //             <label className="adm-label">Bank / Account Label</label>
@@ -1133,6 +1162,30 @@
 //                 </div>
 //               </div>
 //             </div>
+//             <div className="adm-range-box">
+//               <div className="adm-range-title">📊 Totals</div>
+//               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+//                 <div>
+//                   <label className="adm-label">Total Received (£)</label>
+//                   <input className="adm-modal-input" type="number" min="0" value={editForm.totalReceived}
+//                     onChange={(e) => setEditForm({ ...editForm, totalReceived: e.target.value })} />
+//                 </div>
+//                 <div>
+//                   <label className="adm-label">Total Pending (£)</label>
+//                   <input className="adm-modal-input" type="number" min="0" value={editForm.totalPending}
+//                     onChange={(e) => setEditForm({ ...editForm, totalPending: e.target.value })} />
+//                 </div>
+//               </div>
+//             </div>
+//             <label className="adm-label">Status</label>
+//             <select
+//               className="adm-modal-input"
+//               value={editForm.status}
+//               onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
+//             >
+//               <option value="on">ON</option>
+//               <option value="off">OFF</option>
+//             </select>
 //             <div className="adm-modal-footer">
 //               <button className="adm-btn-outline" onClick={() => setEditingBank(null)}>← Back</button>
 //               <button className="adm-btn" disabled={savingEdit} onClick={saveEditBank}>
@@ -1252,6 +1305,43 @@
 //     </div>
 //   );
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1870,7 +1960,6 @@ export default function AdminPage() {
     accountLabel: "", accountName: "", maxLimit: "", minLimit: "", sortCode: "", accountNumber: "",
   });
 
-  // ✅ UPDATED: editForm now includes all bank fields
   const [editForm, setEditForm] = useState({
     accountLabel: "", accountName: "", maxLimit: "", minLimit: "",
     sortCode: "", accountNumber: "", totalReceived: "", totalPending: "", status: "on",
@@ -1969,7 +2058,6 @@ export default function AdminPage() {
     finally { setDeletingBankId(null); }
   };
 
-  // ✅ UPDATED: populates all fields including totalReceived, totalPending, status
   const openEditBank = (bank: any) => {
     setEditingBank(bank);
     setEditForm({
@@ -1986,7 +2074,6 @@ export default function AdminPage() {
     setShowEditBankModal(true);
   };
 
-  // ✅ UPDATED: sends all fields including totalReceived, totalPending, status
   const saveEditBank = async () => {
     if (!editingBank) return;
     try {
@@ -2123,6 +2210,8 @@ export default function AdminPage() {
             <span className="adm-topbar-brand">ADMIN PORTAL</span>
           </div>
           <div className="adm-topbar-actions">
+
+            {/* MANAGE ADMIN — superadmin only (unchanged) */}
             {role === "superadmin" && (
               <div className="adm-dropdown-wrap">
                 <button className="adm-manage-btn" onClick={(e) => { e.stopPropagation(); setShowManageDropdown((p) => !p); }}>
@@ -2142,7 +2231,10 @@ export default function AdminPage() {
               </div>
             )}
 
-            {/* SETTINGS DROPDOWN */}
+            {/* SETTINGS DROPDOWN
+                - superadmin: Change Credentials + Edit Spreadsheet ID
+                - normal admin: Change Credentials only
+            */}
             <div className="adm-dropdown-wrap">
               <button className="adm-manage-btn" onClick={(e) => { e.stopPropagation(); setShowSettingsDropdown((p) => !p); }}>
                 ⚙️ Settings ▾
@@ -2152,10 +2244,14 @@ export default function AdminPage() {
                   <button className="adm-topbar-dropdown-item" onClick={() => { setSettingsForm({ username: "", password: "" }); setShowSettingsModal(true); setShowSettingsDropdown(false); }}>
                     🔑 Change Credentials
                   </button>
-                  <hr className="adm-topbar-divider" />
-                  <button className="adm-topbar-dropdown-item" onClick={() => { setSpreadsheetId(""); setShowSpreadsheetModal(true); setShowSettingsDropdown(false); }}>
-                    📊 Edit Spreadsheet ID
-                  </button>
+                  {role === "superadmin" && (
+                    <>
+                      <hr className="adm-topbar-divider" />
+                      <button className="adm-topbar-dropdown-item" onClick={() => { setSpreadsheetId(""); setShowSpreadsheetModal(true); setShowSettingsDropdown(false); }}>
+                        📊 Edit Spreadsheet ID
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -2183,26 +2279,30 @@ export default function AdminPage() {
                   <h3 className="adm-page-title">Banks</h3>
                   <p className="adm-page-sub">Manage all linked bank accounts</p>
                 </div>
-                <div className="adm-dropdown-wrap">
-                  <button className="adm-btn" onClick={(e) => { e.stopPropagation(); setShowManageBanksDropdown((p) => !p); }}>
-                    Manage Banks ▾
-                  </button>
-                  {showManageBanksDropdown && (
-                    <div className="adm-dropdown-menu" onClick={(e) => e.stopPropagation()}>
-                      <button className="adm-dropdown-item" onClick={() => { setShowBankModal(true); setShowManageBanksDropdown(false); }}>
-                        ➕ Add Bank
-                      </button>
-                      <hr className="adm-dropdown-divider" />
-                      <button className="adm-dropdown-item" onClick={() => { setShowEditBankModal(true); setEditingBank(null); setShowManageBanksDropdown(false); }}>
-                        ✏️ Edit Bank
-                      </button>
-                      <hr className="adm-dropdown-divider" />
-                      <button className="adm-dropdown-item adm-dropdown-item-danger" onClick={() => { setShowDeleteBankModal(true); setShowManageBanksDropdown(false); }}>
-                        🗑️ Delete Bank
-                      </button>
-                    </div>
-                  )}
-                </div>
+
+                {/* MANAGE BANKS DROPDOWN — superadmin only */}
+                {role === "superadmin" && (
+                  <div className="adm-dropdown-wrap">
+                    <button className="adm-btn" onClick={(e) => { e.stopPropagation(); setShowManageBanksDropdown((p) => !p); }}>
+                      Manage Banks ▾
+                    </button>
+                    {showManageBanksDropdown && (
+                      <div className="adm-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                        <button className="adm-dropdown-item" onClick={() => { setShowBankModal(true); setShowManageBanksDropdown(false); }}>
+                          ➕ Add Bank
+                        </button>
+                        <hr className="adm-dropdown-divider" />
+                        <button className="adm-dropdown-item" onClick={() => { setShowEditBankModal(true); setEditingBank(null); setShowManageBanksDropdown(false); }}>
+                          ✏️ Edit Bank
+                        </button>
+                        <hr className="adm-dropdown-divider" />
+                        <button className="adm-dropdown-item adm-dropdown-item-danger" onClick={() => { setShowDeleteBankModal(true); setShowManageBanksDropdown(false); }}>
+                          🗑️ Delete Bank
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="adm-table-wrap">
@@ -2391,7 +2491,7 @@ export default function AdminPage() {
           </AdminModal>
         )}
 
-        {/* EDIT BANK — step 2: form (✅ UPDATED with all fields) */}
+        {/* EDIT BANK — step 2: form */}
         {showEditBankModal && editingBank && (
           <AdminModal title={`Edit — ${editingBank.accountLabel}`} onClose={() => { setShowEditBankModal(false); setEditingBank(null); }}>
             <label className="adm-label">Bank / Account Label</label>
